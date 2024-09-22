@@ -67,7 +67,16 @@ class CategoryController extends Controller
     Public Function delCat(string $id)
             {
 
-                Category::where('id',$id)->delete();
+                $category = Category::find($id);
+
+                // Check if there are related topics
+                if ($category->topics()->exists()) {
+                    return redirect()->route('cat')->with('no' ,'Cannot delete category because it has related topics.');
+                }
+
+                // Proceed to delete if no related topics
+                $category->delete();
+                //Category::where('id',$id)->delete();
                 return redirect()->route('cat');
 
             }

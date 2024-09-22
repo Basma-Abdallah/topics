@@ -7,6 +7,21 @@
                 <h2 class="fw-bold fs-2 col-auto">All Categories</h2>
                 <a href="{{route('addCatForm')}}" class="btn btn-link  link-dark fw-semibold col-auto me-3">➕Add new category</a>
             </div>
+                       @if(session('no'))
+                            <div class="alert alert-warning" id="successMessage">
+                                {{ session('no') }}
+                            </div>
+                        @endif
+
+                        <script>
+                            // Hide the success message after 5 seconds
+                            setTimeout(function() {
+                                var successMessage = document.getElementById('successMessage');
+                                if (successMessage) {
+                                    successMessage.style.display = 'none';
+                                }
+                            }, 5000);
+                            </script>
             <div class="table-responsive">
                 <table class="table table-hover display" id="_table">
                     <thead>

@@ -18,14 +18,23 @@ return new class extends Migration
             $table->integer('NumberOfViews')->default(0);
             $table->boolean('Trending')->default(0);
             $table->boolean('Published')->default(0);
-            $table->foreignId('Category_id')->constrained('categories')->onDelete('cascade');
+            $table->foreignId('Category_id');
+            //->constrained('categories')->onDelete('cascade');
             $table->string('image');
             $table->timestamps();
         });
-        
+
         Schema::table('topics', function (Blueprint $table) {
-            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
-        });
+
+
+                // Add the foreign key with cascade on delete
+                $table->foreign('Category_id')
+                      ->references('id')
+                      ->on('categories')
+                      ->onDelete('cascade');
+            });
+
+
     }
 
     /**
