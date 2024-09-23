@@ -25,13 +25,16 @@ class DatabaseSeeder extends Seeder
         //      $cat=$itratorForCat[$i];
         //     Category::factory()->create([ 'CategoryName' => $cat,]);
         // }
+
+
+
         //  User::factory(10)->create([
         //     'active' => '0',
         //     ]);
-        // //  Path to the folder where images are stored
 
 
-        // // Get all image files from the folder
+
+        // Get all image files from the folder
         //     $images = File::files( public_path('assets/admin/images/topics'));
 
         // // Create a Faker instance
@@ -47,10 +50,10 @@ class DatabaseSeeder extends Seeder
 
         //     ]);
 
-        //     // Create the topic using Faker for other fields
-        //     }
+            // Create the topic using Faker for other fields
+            // }
 
-        // //  Testimonial::factory(10)->create();
+        //  Testimonial::factory(10)->create();
 
         // // User::factory()->create([
         // //     'name' => 'Test User',
@@ -71,6 +74,6 @@ class DatabaseSeeder extends Seeder
 
         //     ]); }
 
-        Message::factory(10)->create();
+        //Message::factory(10)->create();
     }
 }

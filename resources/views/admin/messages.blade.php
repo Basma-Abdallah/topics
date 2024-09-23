@@ -6,6 +6,13 @@
             <div class="row justify-content-between mb-2 pb-2">
                 <h2 class="fw-bold fs-2 col-auto">Unread Messages</h2>
             </div>
+            @if(session('delete'))
+                <div class="alert alert-success" id="successMessage">
+                    {{ session('delete') }}
+                </div>
+            @endif
+
+            @include('admin.includes.messageScript')
             <div class="table-responsive">
                 <table class="table table-hover table-borderless display" id="_table">
                     <thead>
@@ -17,8 +24,6 @@
                         </tr>
                     </thead>
                     <tbody>
-
-
                             @foreach($messages as $message)
                             @if($message->ReadCondition == 0)
                             <tr>
@@ -29,10 +34,6 @@
                             </tr>
                             @endif
                             @endforeach
-
-
-
-
                     </tbody>
                 </table>
             </div>

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+
     public function cat()
             {
                 $categories=Category::select()->get();
@@ -33,7 +34,7 @@ class CategoryController extends Controller
                     'CategoryName'=>'required|unique:categories,CategoryName|Max:200',
                 ], $message);
                 Category::create($data);
-                return redirect()->route('cat')->with('sucess' ,'you inserted new Category successfully');
+                return redirect()->route('cat')->with('added' ,'you inserted new Category successfully');
 
 
             }
@@ -49,17 +50,21 @@ class CategoryController extends Controller
     public function updateCat(request $request , string $id)
             {
 
+                Category::findOrFail($id);
+                   //dd($request);
                 $message=[
                     'CategoryName.required'=>'Category Name is required , please enter before submit form ',
                     'CategoryName.unique'=>'Category Name is unique , please enter different Category ',
                     'CategoryName.max'=>'Category Name  max size is 200 charcter ',
                     ];
                 $data=$request->validate([
-                    'CategoryName'=>'required|unique:categories,CategoryName|Max:200',
+                    'CategoryName'=>'required|unique:categories,CategoryName|Max:200'.$id,
                                 ], $message);
-                Category::where('id', $id)->update($data);
-
-                return redirect()->route('cat')->with('sucess' ,'you inserted new Category successfully');
+                Category::where('id', $id)->update([
+                    'CategoryName' => $data['CategoryName']
+                ]);
+               // dd($data);
+                return redirect()->route('cat')->with('updated' ,'you updated  Category successfully');
 
 
             }
@@ -68,16 +73,15 @@ class CategoryController extends Controller
             {
 
                 $category = Category::find($id);
-
                 // Check if there are related topics
                 if ($category->topics()->exists()) {
-                    return redirect()->route('cat')->with('no' ,'Cannot delete category because it has related topics.');
+                    return redirect()->route('cat')->with('deleted' ,'Cannot delete category because it has related topics.');
                 }
 
                 // Proceed to delete if no related topics
                 $category->delete();
                 //Category::where('id',$id)->delete();
-                return redirect()->route('cat');
+                return redirect()->route('cat')->with('deleted' ,'you deleted new Category successfully');
 
             }
 }

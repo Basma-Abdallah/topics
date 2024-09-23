@@ -6,6 +6,23 @@
                         <h2 class="fw-bold fs-2 col-auto">All Users</h2>
                         <a href="{{route('users.add')}}" class="btn btn-link  link-dark fw-semibold col-auto me-3">➕Add new user</a>
                     </div>
+                    @if(session('add'))
+                        <div class="alert alert-warning" id="successMessage">
+                            {{ session('add') }}
+                        </div>
+                    @endif
+                    @if(session('edited'))
+                        <div class="alert alert-warning" id="successMessage">
+                            {{ session('edited') }}
+                        </div>
+                    @endif
+                    @if(session('added'))
+                        <div class="alert alert-warning" id="successMessage">
+                            {{ session('added') }}
+                        </div>
+                    @endif
+
+                    @include('admin.includes.messageScript')
                     <div class="table-responsive">
                         <table class="table table-hover display" id="_table">
                             <thead>
@@ -29,8 +46,9 @@
                                     <td class="text-center"><a class="text-decoration-none text-dark" href="{{route('users.edit', $user['id'])}}"><img src="{{asset('assets/admin/images/edit-svgrepo-com.svg')}}"></a></td>
                                 </tr>
                                 @endforeach
+                            </tbody>
                         </table>
                     </div>
                 </div>
-            </div>
- @endsection
+        </div>
+@endsection

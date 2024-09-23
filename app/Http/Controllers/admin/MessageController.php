@@ -22,16 +22,12 @@ class MessageController extends Controller
                   $message->save();
                  // dd($message);
                   return view('admin.message_details' , compact('message'));
-
-
             }
 
     public function DelMess(string $id)
             {
                 Message::where('id',$id)->delete();
-                return redirect()->route('mess');
-
-
+                return redirect()->route('mess')->with('delete' ,'you deleted message successfully');
             }
 
 }
