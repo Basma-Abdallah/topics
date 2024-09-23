@@ -26,11 +26,11 @@ class LoginController extends Controller
     */
 
     use AuthenticatesUsers;
-    
+
     public function username()
-    {
-        return 'UserName';
-    }
+            {
+                return 'UserName';
+            }
     /**
      * Where to redirect users after login.
      *
@@ -44,40 +44,36 @@ class LoginController extends Controller
      * @return void
      */
     public function __construct()
-    {
-        $this->middleware('guest')->except('logout');
-        $this->middleware('auth')->only('logout');
-    }
-      // Override login method
+            {
+                $this->middleware('guest')->except('logout');
+                $this->middleware('auth')->only('logout');
+            }
+
       protected function attemptLogin(Request $request)
-      {
-          $credentials = $this->credentials($request);
+            {
+                $credentials = $this->credentials($request);
+                $credentials['active'] = 1;
+                return Auth::attempt($credentials, $request->filled('remember'));
+            }
 
-          // Adding 'active' to credentials check (active = 1)
-          $credentials['active'] = 1;
 
-          return Auth::attempt($credentials, $request->filled('remember'));
-      }
-
-      // Optionally customize credentials method if needed
       protected function credentials(Request $request)
-      {
-          return $request->only($this->username(), 'password');
-      }
+            {
+                return $request->only($this->username(), 'password');
+            }
 
-      // Customize the failed login response to show custom error message for inactive users
       protected function sendFailedLoginResponse(Request $request)
-      {
-          $user = \App\Models\User::where($this->username(), $request->{$this->username()})->first();
+            {
+                $user = \App\Models\User::where($this->username(), $request->{$this->username()})->first();
 
-          if ($user && !$user->active) {
-              throw ValidationException::withMessages([
-                  $this->username() => ['Your account is not active yet.'],
-              ]);
-          }
+                if ($user && !$user->active) {
+                    throw ValidationException::withMessages([
+                        $this->username() => ['Your account is not active yet.please contact website admin '],
+                    ]);
+                }
 
-          throw ValidationException::withMessages([
-              $this->username() => [trans('auth.failed')],
-          ]);
-      }
+                throw ValidationException::withMessages([
+                    $this->username() => [trans('auth.failed')],
+                ]);
+            }
 }

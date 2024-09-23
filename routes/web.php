@@ -1,6 +1,5 @@
 <?php
 
-
 use App\Http\Controllers\admin\TopicController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\MessageController;
@@ -19,7 +18,7 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
                                                  // routes of admin dashborad
 
 // routes of admin dashborad--users--
-Route::prefix('users')->middleware('verified')->group(function() {
+Route::prefix('users')->middleware(['verified' , 'active'])->group(function() {
     Route::get('' ,[UserController::class , 'users'])->name('users');
     Route::get('add' ,[UserController::class , 'adduser'])->name('users.add');
     Route::post('store' ,[UserController::class , 'storeUser'])->name('users.store');
@@ -28,7 +27,7 @@ Route::prefix('users')->middleware('verified')->group(function() {
 
     });
 // routes of admin dashborad--topics--
-Route::prefix('topics')->middleware('verified')->group(function() {
+Route::prefix('topics')->middleware(['verified' , 'active'])->group(function() {
     Route::get('' ,[TopicController::class , 'topics'])->name('topics');
     Route::get('add/Form' ,[TopicController::class , 'addTopicForm'])->name('addTopicForm');
     Route::post('add' ,[TopicController::class , 'addTopic'])->name('addTopic');
@@ -39,33 +38,33 @@ Route::prefix('topics')->middleware('verified')->group(function() {
 
 
     });
-    Route::get('topic/{id}' ,[TopicController::class , 'topicDetails'])->middleware('verified')->name('topicDetails');
+    Route::get('topic/{id}' ,[TopicController::class , 'topicDetails'])->middleware(['verified' , 'active'])->name('topicDetails');
 
 // routes of admin dashborad--categories--
-Route::prefix('cat')->middleware('verified')->group(function() {
+Route::prefix('cat')->middleware(['verified' , 'active'])->group(function() {
     Route::get('' ,[CategoryController::class , 'cat'])->name('cat');
     Route::get('add/form' ,[CategoryController::class , 'addCatForm'])->name('addCatForm');
     Route::post('add' ,[CategoryController::class , 'addCat'])->name('addCat');
-    Route::get('edit/form/{id}' ,[CategoryController::class , 'editCatForm'])->name('editCatForm');
+    Route::get('form/{id}' ,[CategoryController::class , 'editCatForm'])->name('editCatForm');
     Route::put('update/{id}' ,[CategoryController::class , 'updateCat'])->name('updateCat');
     Route::get('del/{id}' ,[CategoryController::class , 'delCat'])->name('delCat');
 
     });
 
 // routes of admin dashborad--testimonials--
-Route::prefix('tes')->middleware('verified')->group(function() {
+Route::prefix('tes')->middleware(['verified' , 'active'])->group(function() {
 
     Route::get('' ,[TestimonialController::class , 'tes'])->name('tes');
     Route::get('add/Form' ,[TestimonialController::class , 'addTesForm'])->name('addTesForm');
     Route::post('add' ,[TestimonialController::class , 'addTes'])->name('addTes');
     Route::get('edit/form/{id}' ,[TestimonialController::class , 'editTesForm'])->name('editTesForm');
-    Route::put('update/{id}' ,[TestimonialController::class , 'updateTes'])->name('updateCat');
+    Route::put('update/{id}' ,[TestimonialController::class , 'updateTes'])->name('updateTes');
     Route::get('del/{id}' ,[TestimonialController::class , 'DelTes'])->name('DelTes');
 
 
     });
 // routes of admin dashborad--messages --gotten through contact us form --
-Route::prefix('mess')->middleware('verified')->group(function() {
+Route::prefix('mess')->middleware(['verified' , 'active'])->group(function() {
 
     Route::get('' ,[MessageController::class , 'mess'])->name('mess');
     Route::get('details/{id}' ,[MessageController::class , 'messDetails'])->name('messDetails');
@@ -84,7 +83,7 @@ Route::prefix('topics')->group(function() {
     Route::get('list' ,[PublicController::class , 'topicsList'])->name('topicsList');
     Route::get('details/{id}' ,[PublicController::class , 'topicsDetails'])->name('topicsDetails');
     Route::post('{id}/mark', [PublicController::class, 'markAsRead'])->name('topics.mark');
-    Route::post('browse/{id}', [PublicController::class, 'browseTopics'])->name('browseTopics');
+    //Route::post('browse/{id}', [PublicController::class, 'browseTopics'])->name('browseTopics');
 
     });
 
@@ -98,6 +97,6 @@ Route::prefix('contactus')->group(function() {
 
 
 
-Auth::routes(['verify' => true]);
+Auth::routes(['verify' => true ,'active'=> 1]);
 
 

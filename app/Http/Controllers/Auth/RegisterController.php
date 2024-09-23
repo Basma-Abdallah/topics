@@ -28,17 +28,19 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/users';
+    protected $redirectTo = '/home';
+
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
+
     public function __construct()
-    {
-        $this->middleware('guest');
-    }
+            {
+                $this->middleware('guest');
+            }
 
     /**
      * Get a validator for an incoming registration request.
@@ -47,40 +49,41 @@ class RegisterController extends Controller
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
-    {
-        $message=[
-            'FirstName.string'=>' First Name  is string',
-            'LastName.string'=>' Last Name  is string',
-            'UserName.string'=>' User name  is string',
-            'email.string'=>' email name  is string',
+            {
+                $message=[
+                    'FirstName.string'=>' First Name  is string',
+                    'LastName.string'=>' Last Name  is string',
+                    'UserName.string'=>' User name  is string',
+                    'email.string'=>' email name  is string',
 
 
-            'FirstName.required'=>' Fisrt Name  is required',
-            'LastName.required'=>' Last Name  is required',
-            'UserName.required'=>' User name  is required',
-            'email.required'=>' email name  is required',
-            'password.required'=>' password  is required',
-            'password_confirmation.required'=>' you forgot to confirm your password',
+                    'FirstName.required'=>' Fisrt Name  is required',
+                    'LastName.required'=>' Last Name  is required',
+                    'UserName.required'=>' User name  is required',
+                    'email.required'=>' email name  is required',
+                    'password.required'=>' password  is required',
+                    'password_confirmation.required'=>' you forgot to confirm your password',
 
-            'FirstName.alpha'=>' Fisrt Name  is alphabatical',
-            'LastName.alpha'=>' Last Name  is alphabatical',
-            'UserName.alpha_num'=>' User name  is alphabatical',
-            'email.email'=>' should be written in email format',
-            'password.alpha_num'=>' password  is letters and numbers only',
-            'Password.confirmed'=>' password  $ confimation is not matching',
-            'Password.min'=>' password  must be 8 characters at least',
+                    'FirstName.alpha'=>' Fisrt Name  is alphabatical',
+                    'LastName.alpha'=>' Last Name  is alphabatical',
+                    'UserName.unique'=>' User name  is  taken',
+                    'email.unique'=>' email is taken',
+                    'email.email'=>' should be written in email format',
+                    'password.alpha_num'=>' password  is letters and numbers only',
+                    'Password.confirmed'=>' password  $ confimation is not matching',
+                    'Password.min'=>' password  must be 8 characters at least',
 
-             ];
-        return Validator::make($data, [
+                    ];
+                return Validator::make($data, [
 
-            'FirstName'=>'required|string|max:30|alpha',
-            'LastName'=>'required|string|max:30|alpha',
-            'UserName'=>'required|string|unique:users,UserName|max:30|alpha_num',
-            'email' =>'required|string|email|unique:users,email|max:255',
-            'password'=>'required|min:8|confirmed|alpha_num',
+                    'FirstName'=>'required|string|max:30|alpha',
+                    'LastName'=>'required|string|max:30|alpha',
+                    'UserName'=>'required|string|unique:users,UserName|max:30|regex:/^[a-zA-Z0-9_.-]+$/',
+                    'email' =>'required|string|email|unique:users,email|max:255',
+                    'password'=>'required|min:8|confirmed|alpha_num',
 
-        ], $message);
-    }
+                ], $message);
+            }
 
     /**
      * Create a new user instance after a valid registration.
@@ -89,16 +92,20 @@ class RegisterController extends Controller
      * @return \App\Models\User
      */
     protected function create(array $data)
-    {
-        return User::create([
-            'FirstName' => $data['FirstName'],
-            'LastName' => $data['LastName'],
-            'UserName' => $data['UserName'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'active' => 0,
+            {
+                return User::create([
+                    'FirstName' => $data['FirstName'],
+                    'LastName' => $data['LastName'],
+                    'UserName' => $data['UserName'],
+                    'email' => $data['email'],
+                    'password' => Hash::make($data['password']),
+                    'active' => 0,
 
 
-        ]);
-    }
+                ]);
+
+            }
+
+
+
 }
